@@ -1,14 +1,15 @@
 const addButton = document.querySelector('#add_photo');
 const clearButton = document.querySelector('#clear_photo');
+import { registerImage, resetCount } from './lazy'
 
 const add = async () => {
   const response = await fetchData();
-  console.log(response);
   createPhoto(response.message);
 }
 
 const clear = async () => {
-  const images =  document.querySelector('#images');
+  const images = document.querySelector('#images');
+  resetCount()
   images.innerHTML = '';
 }
 
@@ -26,11 +27,13 @@ const fetchData = async () => {
 const createPhoto = (url) => {
   const images = document.querySelector('#images');
   const img = document.createElement('img');
-  img.src = url;
+  img.src = 'public/images/descarga.jpeg'
   img.alt = 'perrito';
-  img.className = 'mx-auto w-[320px] rounded-lg shadow-xl shadow-cyan-500/50 my-4'
-
+  img.width = '320'
+  img.className = 'mx-auto rounded-lg shadow-xl shadow-cyan-500/50 mt-4'
+  img.dataset.src = url
   images.insertAdjacentElement('beforeend', img)
+  registerImage(img)
 }
 
 
