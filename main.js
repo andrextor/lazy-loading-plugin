@@ -1,24 +1,37 @@
+const addButton = document.querySelector('#add_photo');
+const clearButton = document.querySelector('#clear_photo');
 
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const add = async () => {
+  const response = await fetchData();
+  console.log(response);
+  createPhoto(response.message);
+}
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const clear = async () => {
+  const images =  document.querySelector('#images');
+  images.innerHTML = '';
+}
 
-setupCounter(document.querySelector('#counter'))
+addButton.addEventListener('click', add)
+clearButton.addEventListener('click', clear)
+
+
+const URL_BASE = 'https://dog.ceo/api/breeds';
+
+const fetchData = async () => {
+  const response = await fetch(`${URL_BASE}/image/random`);
+  return await response.json();
+}
+
+const createPhoto = (url) => {
+  const images = document.querySelector('#images');
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'perrito';
+  img.className = 'mx-auto w-[320px] rounded-lg shadow-xl shadow-cyan-500/50 my-4'
+
+  images.insertAdjacentElement('beforeend', img)
+}
+
+
+
